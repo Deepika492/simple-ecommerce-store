@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraStore | Premium Modern E-Commerce Store</title>
+  <meta name="description" content="Discover premium electronics, studio audio, lifestyle fashion and curated accessories with fast delivery.">
+  
+  <!-- FontAwesome & Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Navigation -->
+  <header class="navbar" id="main-navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-badge"><i class="fas fa-bolt"></i></div>
+        <span>AuraStore</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="products.html" class="nav-link"><i class="fas fa-compass"></i> Shop</a></li>
+          <li><a href="#categories-section" class="nav-link"><i class="fas fa-layer-group"></i> Categories</a></li>
+          <li><a href="orders.html" class="nav-link"><i class="fas fa-box"></i> My Orders</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="nav-cart-btn" title="View Shopping Cart">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-badge" id="nav-cart-badge" style="display:none;">0</span>
+        </a>
+
+        <div id="nav-auth-container">
+          <!-- Populated dynamically by auth.js -->
+        </div>
+
+        <button class="mobile-toggle" onclick="toggleMobileNav()" title="Toggle Navigation Menu" aria-label="Toggle Navigation Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-drawer" id="mobile-nav-drawer" onclick="if(event.target===this) toggleMobileNav()">
+    <div class="mobile-nav-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:1rem;">
+        <a href="index.html" class="brand-logo">
+          <div class="logo-badge"><i class="fas fa-bolt"></i></div>
+          <span>AuraStore</span>
+        </a>
+        <button onclick="toggleMobileNav()" class="btn btn-sm btn-ghost"><i class="fas fa-times fa-lg"></i></button>
+      </div>
+      
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:1rem; font-size:1.05rem;">
+        <li><a href="index.html" class="nav-link active" onclick="toggleMobileNav()"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="products.html" class="nav-link" onclick="toggleMobileNav()"><i class="fas fa-compass"></i> Shop Products</a></li>
+        <li><a href="#categories-section" class="nav-link" onclick="toggleMobileNav()"><i class="fas fa-layer-group"></i> Categories</a></li>
+        <li><a href="orders.html" class="nav-link" onclick="toggleMobileNav()"><i class="fas fa-box"></i> My Orders</a></li>
+        <li><a href="cart.html" class="nav-link" onclick="toggleMobileNav()"><i class="fas fa-shopping-bag"></i> Cart (<span id="mobile-cart-badge">0</span>)</a></li>
+      </ul>
+
+      <div id="mobile-auth-container" style="margin-top:auto; padding-top:1.5rem; border-top:1px solid var(--border-color);">
+        <!-- Populated dynamically by auth.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-badge">
+            <i class="fas fa-sparkles"></i> 2026 Premium Collection Live
+          </div>
+          <h1 class="hero-title">
+            Shop Smarter.<br><span>Live Better.</span>
+          </h1>
+          <p class="hero-subtitle">
+            Discover premium products, amazing deals and everything you need in one place. Engineered for performance and curated for lifestyle.
+          </p>
+          <div class="hero-cta">
+            <a href="products.html" class="btn btn-lg btn-primary">
+              <i class="fas fa-shopping-bag"></i> Shop Now
+            </a>
+            <a href="#categories-section" class="btn btn-lg btn-secondary" style="background:rgba(255,255,255,0.12); color:white; border-color:rgba(255,255,255,0.25); backdrop-filter:blur(8px);">
+              <i class="fas fa-layer-group"></i> Explore Categories
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <div class="hero-card-preview">
+            <div style="position:relative;">
+              <span class="badge badge-featured" style="position:absolute; top:12px; left:12px;"><i class="fas fa-star"></i> Featured Tech</span>
+              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80" alt="Featured Headphones" class="hero-card-img">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem;">
+              <div>
+                <span class="badge badge-stock-in"><i class="fas fa-check-circle"></i> In Stock</span>
+                <h4 style="color:white; margin-top:0.4rem; font-size:1.15rem; font-weight:700;">Sony WH-1000XM5 ANC</h4>
+                <div style="color:#cbd5e1; font-size:0.85rem;">Spatial Audio | 30h Battery Life</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-family:var(--font-heading); font-size:1.5rem; font-weight:900; color:#a5b4fc;">₹2,499</div>
+                <a href="products.html" class="btn btn-sm btn-primary" style="margin-top:0.35rem;">Shop Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Body Content -->
+  <main class="container">
+    
+    <!-- Why Shop With AuraStore (Feature Cards) -->
+    <div class="features-grid">
+      <div class="feature-box">
+        <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+        <div>
+          <h4 class="feature-title">Secure Shopping</h4>
+          <p class="feature-desc">Encrypted transactions & certified safe checkout.</p>
+        </div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
+        <div>
+          <h4 class="feature-title">Fast Delivery</h4>
+          <p class="feature-desc">Free express shipping on all orders over ₹1,000.</p>
+        </div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon"><i class="fas fa-award"></i></div>
+        <div>
+          <h4 class="feature-title">Quality Products</h4>
+          <p class="feature-desc">100% authentic items with full manufacturer warranty.</p>
+        </div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon"><i class="fas fa-rotate-left"></i></div>
+        <div>
+          <h4 class="feature-title">Easy Returns</h4>
+          <p class="feature-desc">Hassle-free 30-day return and replacement policy.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Categories Section -->
+    <section id="categories-section" style="margin-bottom: 4.5rem;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Featured Categories</h2>
+          <p class="section-subtitle">Explore curated collections crafted for every lifestyle</p>
+        </div>
+        <a href="products.html" class="btn btn-sm btn-secondary">
+          View All Products <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="categories-slider" id="home-categories-grid">
+        <!-- Populated dynamically by products.js -->
+        <div style="grid-column:1/-1; text-align:center; padding:3rem;">
+          <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary)"></i>
+          <p style="margin-top:0.75rem; color:var(--text-muted);">Loading categories...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section style="margin-bottom: 4.5rem;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Featured Products</h2>
+          <p class="section-subtitle">Top rated picks, bestsellers, and trending tech</p>
+        </div>
+        <a href="products.html" class="btn btn-sm btn-outline-primary">
+          Explore All Products <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="product-grid" id="featured-products-grid">
+        <!-- Populated dynamically by products.js -->
+        <div style="grid-column:1/-1; text-align:center; padding:4rem;">
+          <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary)"></i>
+          <p style="margin-top:0.75rem; color:var(--text-muted);">Loading top products...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promotional Callout Banner -->
+    <section class="promo-banner">
+      <div class="promo-content">
+        <h2>Upgrade Your Everyday</h2>
+        <p>Discover smart devices, audio gear, and lifestyle essentials crafted to elevate your daily routine.</p>
+      </div>
+      <a href="products.html" class="btn btn-lg btn-secondary" style="background:white; color:var(--primary); font-weight:800; box-shadow:var(--shadow-lg);">
+        <i class="fas fa-shopping-cart"></i> Shop Now
+      </a>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-logo" style="color:white; margin-bottom:1.25rem;">
+            <div class="logo-badge"><i class="fas fa-bolt"></i></div>
+            <span style="color:white; -webkit-text-fill-color:white;">AuraStore</span>
+          </div>
+          <p style="font-size:0.92rem; line-height:1.65; max-width:340px;">
+            Your trusted destination for modern shopping. Discover top tech, lifestyle essentials, and instant delivery.
+          </p>
+          <div style="display:flex; gap:1rem; margin-top:1.5rem; font-size:1.2rem;">
+            <a href="javascript:void(0)" style="color:#94a3b8;"><i class="fab fa-twitter"></i></a>
+            <a href="javascript:void(0)" style="color:#94a3b8;"><i class="fab fa-instagram"></i></a>
+            <a href="javascript:void(0)" style="color:#94a3b8;"><i class="fab fa-github"></i></a>
+            <a href="javascript:void(0)" style="color:#94a3b8;"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 style="color:white; margin-bottom:1.25rem; font-size:1.05rem;">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Shop Products</a></li>
+            <li><a href="#categories-section">Categories</a></li>
+            <li><a href="orders.html">Track Order</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color:white; margin-bottom:1.25rem; font-size:1.05rem;">Account</h4>
+          <ul class="footer-links">
+            <li><a href="login.html">Sign In</a></li>
+            <li><a href="register.html">Create Account</a></li>
+            <li><a href="cart.html">View Cart</a></li>
+            <li><a href="orders.html">My Orders</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color:white; margin-bottom:1.25rem; font-size:1.05rem;">Architecture & Stack</h4>
+          <p style="font-size:0.88rem; line-height:1.6; margin-bottom:1rem;">
+            CodeAlpha Full Stack Task 1 — Simple E-Commerce Store with Django REST API, Token Auth & SQLite.
+          </p>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <span class="badge" style="background:#1e293b; color:#94a3b8; border:1px solid #334155;">Django DRF</span>
+            <span class="badge" style="background:#1e293b; color:#94a3b8; border:1px solid #334155;">SQLite</span>
+            <span class="badge" style="background:#1e293b; color:#94a3b8; border:1px solid #334155;">REST API</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 AuraStore. All rights reserved.</div>
+        <div>Designed with Three-Tier Architecture & Clean REST API.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/products.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Products.initHomePage();
+    });
+  </script>
+</body>
+</html>

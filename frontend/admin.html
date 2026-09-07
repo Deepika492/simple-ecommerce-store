@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard & Management | AuraStore</title>
+  <meta name="description" content="Administration portal for product inventory, order lifecycle dispatch, and store metrics.">
+  
+  <!-- FontAwesome & Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background:var(--bg-subtle);">
+
+  <!-- Sticky Admin Navigation -->
+  <header class="navbar" style="background:white; border-bottom:1px solid var(--border-color);">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-badge" style="background:linear-gradient(135deg, #0f172a 0%, #312e81 100%);">
+          <i class="fas fa-crown" style="color:#fbbf24;"></i>
+        </div>
+        <span>AuraStore <span style="font-size:0.75rem; background:var(--primary-light); color:var(--primary); padding:3px 8px; border-radius:var(--radius-full); font-weight:800; vertical-align:middle;">Admin</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link"><i class="fas fa-store"></i> Storefront</a></li>
+          <li><a href="#section-products" class="nav-link"><i class="fas fa-boxes-stacked"></i> Inventory</a></li>
+          <li><a href="#section-orders" class="nav-link"><i class="fas fa-clipboard-list"></i> Orders</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div id="nav-auth-container">
+          <!-- Populated by auth.js -->
+        </div>
+
+        <button class="mobile-toggle" onclick="toggleMobileNav()" title="Toggle Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-drawer" id="mobile-nav-drawer" onclick="if(event.target===this) toggleMobileNav()">
+    <div class="mobile-nav-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:1rem;">
+        <a href="index.html" class="brand-logo">
+          <div class="logo-badge"><i class="fas fa-crown" style="color:#fbbf24;"></i></div>
+          <span>AuraStore Admin</span>
+        </a>
+        <button onclick="toggleMobileNav()" class="btn btn-sm btn-ghost"><i class="fas fa-times fa-lg"></i></button>
+      </div>
+      
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:1rem; font-size:1.05rem;">
+        <li><a href="index.html" class="nav-link" onclick="toggleMobileNav()"><i class="fas fa-store"></i> Customer Storefront</a></li>
+        <li><a href="#section-products" class="nav-link" onclick="toggleMobileNav()"><i class="fas fa-boxes-stacked"></i> Inventory Management</a></li>
+        <li><a href="#section-orders" class="nav-link" onclick="toggleMobileNav()"><i class="fas fa-clipboard-list"></i> Order Fulfillment</a></li>
+      </ul>
+
+      <div id="mobile-auth-container" style="margin-top:auto; padding-top:1.5rem; border-top:1px solid var(--border-color);"></div>
+    </div>
+  </div>
+
+  <!-- Admin Page Header -->
+  <section style="background:white; border-bottom:1px solid var(--border-color); padding: 2.5rem 0; margin-bottom: 2.75rem;">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.25rem;">
+      <div>
+        <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.25rem; font-weight:600;">
+          <i class="fas fa-shield-halved" style="color:var(--primary);"></i> Management Portal & Analytics
+        </div>
+        <h1 style="font-size:2.2rem; font-weight:900; letter-spacing:-0.5px;">Store Management Dashboard</h1>
+      </div>
+
+      <div style="display:flex; gap:0.85rem; flex-wrap:wrap;">
+        <button onclick="Admin.openModal('category-modal')" class="btn btn-secondary">
+          <i class="fas fa-folder-plus"></i> Add Category
+        </button>
+        <button onclick="Admin.openAddProductModal()" class="btn btn-primary">
+          <i class="fas fa-plus-circle"></i> Add New Product
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Admin Content -->
+  <main class="container" style="margin-bottom: 4.5rem;">
+    
+    <!-- 1. Stats KPI Grid -->
+    <div class="admin-stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#ecfdf5; color:#059669;"><i class="fas fa-wallet"></i></div>
+        <div>
+          <div class="stat-val" id="stat-revenue">₹0</div>
+          <div class="stat-label">Total Revenue</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#eff6ff; color:#2563eb;"><i class="fas fa-shopping-bag"></i></div>
+        <div>
+          <div class="stat-val" id="stat-orders">0</div>
+          <div class="stat-label">Total Orders</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#f5f3ff; color:#7c3aed;"><i class="fas fa-boxes-stacked"></i></div>
+        <div>
+          <div class="stat-val" id="stat-products">0</div>
+          <div class="stat-label">Active Catalog Items</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fffbeb; color:#d97706;"><i class="fas fa-triangle-exclamation"></i></div>
+        <div>
+          <div class="stat-val" id="stat-low-stock">0</div>
+          <div class="stat-label">Low / Out of Stock</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Products Inventory Table -->
+    <section id="section-products" class="admin-table-card">
+      <div style="padding:1.35rem 1.75rem; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:1.3rem; font-weight:800;"><i class="fas fa-boxes-stacked" style="color:var(--primary); margin-right:6px;"></i> Products & Stock Management</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">Update stock levels inline with instant save or edit details</p>
+        </div>
+        <button onclick="Admin.loadProducts()" class="btn btn-sm btn-secondary" title="Refresh Products Table">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product Details</th>
+              <th>Unit Price</th>
+              <th>Stock Level</th>
+              <th>Status</th>
+              <th>Featured</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-products-tbody">
+            <tr><td colspan="7" style="text-align:center; padding:3rem;"><i class="fas fa-spinner fa-spin"></i> Loading inventory...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. Customer Orders Table -->
+    <section id="section-orders" class="admin-table-card">
+      <div style="padding:1.35rem 1.75rem; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:1.3rem; font-weight:800;"><i class="fas fa-clipboard-list" style="color:var(--primary); margin-right:6px;"></i> Customer Orders & Dispatch Status</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">Update fulfillment status live across the fulfillment pipeline</p>
+        </div>
+        <button onclick="Admin.loadOrders()" class="btn btn-sm btn-secondary" title="Refresh Orders Table">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Date</th>
+              <th>Items</th>
+              <th>Total Value</th>
+              <th>Fulfillment Status</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="admin-orders-tbody">
+            <tr><td colspan="7" style="text-align:center; padding:3rem;"><i class="fas fa-spinner fa-spin"></i> Loading orders...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Add / Edit Product -->
+  <div class="modal-backdrop" id="product-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="product-modal-title" style="font-size:1.3rem; font-weight:800;">Add Product</h3>
+        <button onclick="Admin.closeModal('product-modal')" class="btn btn-sm btn-ghost"><i class="fas fa-times fa-lg"></i></button>
+      </div>
+      <form id="product-form">
+        <input type="hidden" id="prod_id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="prod_name">Product Name *</label>
+            <input type="text" id="prod_name" class="form-control" placeholder="e.g. Sony WH-1000XM5 ANC Headphones" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="prod_category">Category</label>
+              <select id="prod_category" class="form-control">
+                <option value="">Select Category</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prod_price">Price (₹) *</label>
+              <input type="number" step="0.01" min="0" id="prod_price" class="form-control" placeholder="2499.00" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="prod_stock">Stock Quantity *</label>
+              <input type="number" min="0" id="prod_stock" class="form-control" placeholder="10" required>
+            </div>
+            <div class="form-group" style="display:flex; align-items:center; padding-top:1.75rem;">
+              <label style="display:flex; align-items:center; gap:0.6rem; font-weight:700; cursor:pointer; font-size:0.92rem;">
+                <input type="checkbox" id="prod_featured" style="width:18px; height:18px; accent-color:var(--primary);">
+                <span>Feature on Homepage</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prod_image">Image URL</label>
+            <input type="url" id="prod_image" class="form-control" placeholder="https://images.unsplash.com/...">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prod_desc">Description</label>
+            <textarea id="prod_desc" class="form-control" rows="3" placeholder="Product details, specs, and features"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" onclick="Admin.closeModal('product-modal')" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Category -->
+  <div class="modal-backdrop" id="category-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-size:1.3rem; font-weight:800;">Add New Category</h3>
+        <button onclick="Admin.closeModal('category-modal')" class="btn btn-sm btn-ghost"><i class="fas fa-times fa-lg"></i></button>
+      </div>
+      <form id="category-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="cat_name">Category Name *</label>
+            <input type="text" id="cat_name" class="form-control" placeholder="e.g. Smart Wearables" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cat_icon">FontAwesome Icon Class</label>
+            <input type="text" id="cat_icon" class="form-control" placeholder="fas fa-watch" value="fas fa-box">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cat_desc">Description</label>
+            <textarea id="cat_desc" class="form-control" rows="2" placeholder="Brief description of this category"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="Admin.closeModal('category-modal')" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Create Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Order Details View -->
+  <div class="modal-backdrop" id="order-detail-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-size:1.3rem; font-weight:800;">Order Details <span id="modal-order-id" style="color:var(--primary);"></span></h3>
+        <button onclick="Admin.closeModal('order-detail-modal')" class="btn btn-sm btn-ghost"><i class="fas fa-times fa-lg"></i></button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:1.25rem; font-size:0.92rem; line-height:1.6; background:var(--bg-subtle); padding:1rem; border-radius:var(--radius-md);">
+          <div><strong>Customer:</strong> <span id="modal-order-customer"></span></div>
+          <div style="margin-top:0.25rem;"><strong>Shipping:</strong> <span id="modal-order-address"></span></div>
+          <div style="margin-top:0.25rem;"><strong>Total Paid:</strong> <span id="modal-order-total" style="color:var(--primary); font-weight:800;"></span></div>
+        </div>
+        <h4 style="font-size:1rem; margin-bottom:0.75rem; font-weight:700;">Items Ordered</h4>
+        <div id="modal-order-items" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="Admin.closeModal('order-detail-modal')" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Admin.initDashboard();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | AuraStore</title>
+  <meta name="description" content="Register an account with AuraStore to shop, track fulfillment, and save wishlist items.">
+  
+  <!-- FontAwesome & Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Navigation -->
+  <header class="navbar" id="main-navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-badge"><i class="fas fa-bolt"></i></div>
+        <span>AuraStore</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="products.html" class="nav-link"><i class="fas fa-compass"></i> Shop Products</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-sm btn-secondary">
+          <i class="fas fa-sign-in-alt"></i> Sign In
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Registration Main -->
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <div style="text-align:center; margin-bottom: 2rem;">
+        <div class="logo-badge" style="margin:0 auto 1.25rem; width:54px; height:54px; font-size:1.4rem;">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <h1 style="font-size: 2rem; font-weight:900; letter-spacing:-0.5px;">Create Your Account</h1>
+        <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.35rem;">Join AuraStore to shop, track orders, and manage your cart</p>
+      </div>
+
+      <form id="register-form" novalidate>
+        <!-- Username Field -->
+        <div class="form-group">
+          <label class="form-label" for="reg_username">Username *</label>
+          <div class="input-icon-wrapper">
+            <i class="fas fa-user"></i>
+            <input type="text" id="reg_username" class="form-control" placeholder="Letters, numbers, underscores (3-30 chars)" autocomplete="username" required>
+          </div>
+          <div class="field-feedback" id="reg_username_feedback"></div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="form-group">
+          <label class="form-label" for="reg_email">Email Address *</label>
+          <div class="input-icon-wrapper">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="reg_email" class="form-control" placeholder="e.g. deepika@gmail.com" autocomplete="email" required>
+          </div>
+          <div class="field-feedback" id="reg_email_feedback"></div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label class="form-label" for="reg_password">Password *</label>
+          <div class="input-icon-wrapper">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="reg_password" class="form-control has-toggle" placeholder="e.g. Deepika@123" autocomplete="new-password" required>
+            <button type="button" class="password-toggle-btn" id="toggle-reg-password" title="Toggle password visibility">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          
+          <!-- Live Interactive Password Checklist -->
+          <div class="password-requirements-card" id="password-req-card">
+            <div class="req-header">
+              <i class="fas fa-shield-alt" style="color:var(--primary);"></i> Password must contain:
+            </div>
+            <ul class="req-list">
+              <li class="req-item" id="req-length">
+                <i class="fas fa-times-circle"></i> <span>At least 8 characters</span>
+              </li>
+              <li class="req-item" id="req-upper">
+                <i class="fas fa-times-circle"></i> <span>One uppercase letter</span>
+              </li>
+              <li class="req-item" id="req-lower">
+                <i class="fas fa-times-circle"></i> <span>One lowercase letter</span>
+              </li>
+              <li class="req-item" id="req-number">
+                <i class="fas fa-times-circle"></i> <span>One number</span>
+              </li>
+              <li class="req-item" id="req-special">
+                <i class="fas fa-times-circle"></i> <span>One special character</span>
+              </li>
+              <li class="req-item" id="req-spaces">
+                <i class="fas fa-times-circle"></i> <span>No spaces</span>
+              </li>
+            </ul>
+          </div>
+          <div class="field-feedback" id="reg_password_feedback"></div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+          <label class="form-label" for="reg_confirm_password">Confirm Password *</label>
+          <div class="input-icon-wrapper">
+            <i class="fas fa-check-double"></i>
+            <input type="password" id="reg_confirm_password" class="form-control has-toggle" placeholder="Re-enter your password" autocomplete="new-password" required>
+            <button type="button" class="password-toggle-btn" id="toggle-reg-cp" title="Toggle confirm password visibility">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="field-feedback" id="reg_confirm_feedback"></div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="reg-submit-btn" class="btn btn-primary btn-block btn-lg" style="margin-top:1.5rem;" disabled>
+          <i class="fas fa-user-check"></i> Create Account
+        </button>
+      </form>
+
+      <div style="text-align:center; margin-top: 1.75rem; font-size:0.95rem; color:var(--text-muted);">
+        Already have an account? <a href="login.html" style="font-weight:700;">Sign in here</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom" style="border-top:none; padding-top:0;">
+      <div>&copy; 2026 AuraStore. All rights reserved.</div>
+      <div>Client-Server Architecture with Django REST API.</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Elements
+    const usernameInput = document.getElementById('reg_username');
+    const emailInput = document.getElementById('reg_email');
+    const passwordInput = document.getElementById('reg_password');
+    const confirmPasswordInput = document.getElementById('reg_confirm_password');
+    const submitBtn = document.getElementById('reg-submit-btn');
+
+    const usernameFeedback = document.getElementById('reg_username_feedback');
+    const emailFeedback = document.getElementById('reg_email_feedback');
+    const passwordFeedback = document.getElementById('reg_password_feedback');
+    const confirmFeedback = document.getElementById('reg_confirm_feedback');
+
+    // Requirement Checklist Elements
+    const reqItems = {
+      length: document.getElementById('req-length'),
+      upper: document.getElementById('req-upper'),
+      lower: document.getElementById('req-lower'),
+      number: document.getElementById('req-number'),
+      special: document.getElementById('req-special'),
+      spaces: document.getElementById('req-spaces')
+    };
+
+    // Password Visibility Toggles
+    function setupPasswordToggle(btnId, inputId) {
+      const btn = document.getElementById(btnId);
+      const input = document.getElementById(inputId);
+      if (btn && input) {
+        btn.addEventListener('click', () => {
+          const isPassword = input.type === 'password';
+          input.type = isPassword ? 'text' : 'password';
+          btn.innerHTML = isPassword ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+        });
+      }
+    }
+    setupPasswordToggle('toggle-reg-password', 'reg_password');
+    setupPasswordToggle('toggle-reg-cp', 'reg_confirm_password');
+
+    // Validation Regex & Rules
+    const EMAIL_REGEX = /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+    const USERNAME_REGEX = /^[a-zA-Z0-9_]{3,30}$/;
+
+    // State
+    let fieldValidity = {
+      username: false,
+      email: false,
+      password: false,
+      confirmPassword: false
+    };
+
+    function setFieldState(input, feedbackEl, isValid, message = '') {
+      if (isValid) {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        feedbackEl.className = 'field-feedback success';
+        feedbackEl.innerHTML = message ? `<i class="fas fa-check-circle"></i> <span>${message}</span>` : '';
+      } else {
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        feedbackEl.className = 'field-feedback error';
+        feedbackEl.innerHTML = message ? `<i class="fas fa-exclamation-circle"></i> <span>${message}</span>` : '';
+      }
+    }
+
+    function clearFieldState(input, feedbackEl) {
+      input.classList.remove('is-valid', 'is-invalid');
+      feedbackEl.className = 'field-feedback';
+      feedbackEl.innerHTML = '';
+    }
+
+    // Username Validation
+    function validateUsername(silent = false) {
+      const val = usernameInput.value.trim();
+      if (!val) {
+        fieldValidity.username = false;
+        if (!silent) setFieldState(usernameInput, usernameFeedback, false, 'Username is required.');
+        else clearFieldState(usernameInput, usernameFeedback);
+        return false;
+      }
+      if (val.length < 3) {
+        fieldValidity.username = false;
+        if (!silent) setFieldState(usernameInput, usernameFeedback, false, 'Username must be at least 3 characters long.');
+        return false;
+      }
+      if (val.length > 30) {
+        fieldValidity.username = false;
+        if (!silent) setFieldState(usernameInput, usernameFeedback, false, 'Username cannot exceed 30 characters.');
+        return false;
+      }
+      if (usernameInput.value.includes(' ')) {
+        fieldValidity.username = false;
+        if (!silent) setFieldState(usernameInput, usernameFeedback, false, 'Username cannot contain spaces.');
+        return false;
+      }
+      if (!USERNAME_REGEX.test(val)) {
+        fieldValidity.username = false;
+        if (!silent) setFieldState(usernameInput, usernameFeedback, false, 'Username can only contain letters, numbers, and underscores.');
+        return false;
+      }
+
+      fieldValidity.username = true;
+      setFieldState(usernameInput, usernameFeedback, true);
+      return true;
+    }
+
+    // Email Validation
+    function validateEmail(silent = false) {
+      const rawVal = emailInput.value;
+      const val = rawVal.trim();
+
+      if (!val) {
+        fieldValidity.email = false;
+        if (!silent) setFieldState(emailInput, emailFeedback, false, 'Please enter a valid email address.');
+        else clearFieldState(emailInput, emailFeedback);
+        return false;
+      }
+
+      // Check space or consecutive dots
+      if (rawVal.includes(' ') || val.includes('..') || !EMAIL_REGEX.test(val)) {
+        fieldValidity.email = false;
+        if (!silent) setFieldState(emailInput, emailFeedback, false, 'Please enter a valid email address.');
+        return false;
+      }
+
+      fieldValidity.email = true;
+      setFieldState(emailInput, emailFeedback, true);
+      return true;
+    }
+
+    // Password Validation with Live Checklist
+    function updateRule(element, isPassed) {
+      if (isPassed) {
+        element.classList.remove('invalid');
+        element.classList.add('valid');
+        element.querySelector('i').className = 'fas fa-check-circle';
+      } else {
+        element.classList.remove('valid');
+        element.classList.add('invalid');
+        element.querySelector('i').className = 'fas fa-times-circle';
+      }
+    }
+
+    function validatePassword(silent = false) {
+      const val = passwordInput.value;
+      
+      const hasLength = val.length >= 8;
+      const hasUpper = /[A-Z]/.test(val);
+      const hasLower = /[a-z]/.test(val);
+      const hasNumber = /[0-9]/.test(val);
+      const hasSpecial = /[@#$%!^&*_\-+=()[\]{};:\'",.<>?/\\|`~]/.test(val);
+      const hasNoSpaces = val.length > 0 && !/\s/.test(val);
+
+      // Update live checklist
+      if (val.length > 0) {
+        updateRule(reqItems.length, hasLength);
+        updateRule(reqItems.upper, hasUpper);
+        updateRule(reqItems.lower, hasLower);
+        updateRule(reqItems.number, hasNumber);
+        updateRule(reqItems.special, hasSpecial);
+        updateRule(reqItems.spaces, hasNoSpaces);
+      } else {
+        // Reset checklist to neutral
+        Object.values(reqItems).forEach(item => {
+          item.classList.remove('valid', 'invalid');
+          item.querySelector('i').className = 'fas fa-times-circle';
+        });
+      }
+
+      const allValid = hasLength && hasUpper && hasLower && hasNumber && hasSpecial && hasNoSpaces;
+      fieldValidity.password = allValid;
+
+      if (!val) {
+        if (!silent) setFieldState(passwordInput, passwordFeedback, false, 'Password is required.');
+        else clearFieldState(passwordInput, passwordFeedback);
+        return false;
+      }
+
+      if (allValid) {
+        setFieldState(passwordInput, passwordFeedback, true);
+      } else {
+        if (!silent) {
+          setFieldState(passwordInput, passwordFeedback, false, 'Password must satisfy all requirements above.');
+        } else {
+          passwordInput.classList.remove('is-valid');
+          passwordFeedback.innerHTML = '';
+        }
+      }
+
+      // Re-validate confirm password if it already has value
+      if (confirmPasswordInput.value) {
+        validateConfirmPassword();
+      }
+
+      return allValid;
+    }
+
+    // Confirm Password Validation
+    function validateConfirmPassword(silent = false) {
+      const p = passwordInput.value;
+      const cp = confirmPasswordInput.value;
+
+      if (!cp) {
+        fieldValidity.confirmPassword = false;
+        if (!silent) setFieldState(confirmPasswordInput, confirmFeedback, false, 'Please confirm your password.');
+        else clearFieldState(confirmPasswordInput, confirmFeedback);
+        return false;
+      }
+
+      if (p !== cp) {
+        fieldValidity.confirmPassword = false;
+        setFieldState(confirmPasswordInput, confirmFeedback, false, 'Passwords do not match.');
+        return false;
+      }
+
+      fieldValidity.confirmPassword = true;
+      setFieldState(confirmPasswordInput, confirmFeedback, true, 'Passwords match ✓');
+      return true;
+    }
+
+    // Master Validity Check to toggle Submit Button
+    function updateSubmitButton() {
+      const isValid = fieldValidity.username && fieldValidity.email && fieldValidity.password && fieldValidity.confirmPassword;
+      submitBtn.disabled = !isValid;
+    }
+
+    // Attach Event Listeners for Real-time Feedback
+    usernameInput.addEventListener('input', () => {
+      validateUsername(false);
+      updateSubmitButton();
+    });
+    usernameInput.addEventListener('blur', () => {
+      validateUsername(false);
+      updateSubmitButton();
+    });
+
+    emailInput.addEventListener('input', () => {
+      validateEmail(false);
+      updateSubmitButton();
+    });
+    emailInput.addEventListener('blur', () => {
+      validateEmail(false);
+      updateSubmitButton();
+    });
+
+    passwordInput.addEventListener('input', () => {
+      validatePassword(false);
+      updateSubmitButton();
+    });
+    passwordInput.addEventListener('blur', () => {
+      validatePassword(false);
+      updateSubmitButton();
+    });
+
+    confirmPasswordInput.addEventListener('input', () => {
+      validateConfirmPassword(false);
+      updateSubmitButton();
+    });
+    confirmPasswordInput.addEventListener('blur', () => {
+      validateConfirmPassword(false);
+      updateSubmitButton();
+    });
+
+    // Form Submission Handling
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const uValid = validateUsername(false);
+      const eValid = validateEmail(false);
+      const pValid = validatePassword(false);
+      const cpValid = validateConfirmPassword(false);
+      updateSubmitButton();
+
+      if (!uValid || !eValid || !pValid || !cpValid) {
+        showToast('Please fix the errors before submitting.', 'warning');
+        return;
+      }
+
+      const u = usernameInput.value.trim();
+      const email = emailInput.value.trim();
+      const p = passwordInput.value;
+      const cp = confirmPasswordInput.value;
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Creating Account...`;
+
+        await Auth.register(u, email, p, cp);
+        setTimeout(() => {
+          window.location.href = 'products.html';
+        }, 800);
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i class="fas fa-user-check"></i> Create Account`;
+
+        // If backend returned specific field errors, map them
+        if (err.data && err.data.errors && typeof err.data.errors === 'object') {
+          if (err.data.errors.username) {
+            setFieldState(usernameInput, usernameFeedback, false, err.data.errors.username);
+            fieldValidity.username = false;
+          }
+          if (err.data.errors.email) {
+            setFieldState(emailInput, emailFeedback, false, err.data.errors.email);
+            fieldValidity.email = false;
+          }
+          if (err.data.errors.password) {
+            setFieldState(passwordInput, passwordFeedback, false, err.data.errors.password);
+            fieldValidity.password = false;
+          }
+          if (err.data.errors.confirm_password) {
+            setFieldState(confirmPasswordInput, confirmFeedback, false, err.data.errors.confirm_password);
+            fieldValidity.confirmPassword = false;
+          }
+          updateSubmitButton();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

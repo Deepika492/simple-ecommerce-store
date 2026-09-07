@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In | AuraStore</title>
+  <meta name="description" content="Sign in to your AuraStore account to manage orders, wishlist, and cart.">
+  
+  <!-- FontAwesome & Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Navigation -->
+  <header class="navbar" id="main-navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-badge"><i class="fas fa-bolt"></i></div>
+        <span>AuraStore</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="products.html" class="nav-link"><i class="fas fa-compass"></i> Shop Products</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="register.html" class="btn btn-sm btn-primary">
+          <i class="fas fa-user-plus"></i> Create Account
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Main -->
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <div style="text-align:center; margin-bottom: 2.25rem;">
+        <div class="logo-badge" style="margin:0 auto 1.25rem; width:54px; height:54px; font-size:1.4rem;">
+          <i class="fas fa-lock"></i>
+        </div>
+        <h1 style="font-size: 2rem; font-weight:900; letter-spacing:-0.5px;">Welcome Back!</h1>
+        <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.35rem;">Enter your credentials to access your account & cart</p>
+      </div>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="username">Username or Email *</label>
+          <div class="input-icon-wrapper">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" class="form-control" placeholder="e.g. customer or deepika@gmail.com" required autocomplete="username">
+          </div>
+          <div class="field-feedback" id="username_feedback"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password *</label>
+          <div class="input-icon-wrapper">
+            <i class="fas fa-key"></i>
+            <input type="password" id="password" class="form-control has-toggle" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="password-toggle-btn" id="toggle-login-password" title="Toggle password visibility">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="field-feedback" id="password_feedback"></div>
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="btn btn-primary btn-block btn-lg" style="margin-top:1.5rem;">
+          <i class="fas fa-sign-in-alt"></i> Sign In
+        </button>
+      </form>
+
+      <!-- Quick 1-Click Demo Credentials -->
+      <div class="demo-credentials-box">
+        <div style="font-weight:800; color:var(--text-main); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem;">
+          <i class="fas fa-bolt" style="color:var(--primary);"></i> 1-Click Demo Accounts (Instant Test)
+        </div>
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+          <button type="button" class="demo-account-btn" onclick="fillCredentials('customer', 'Customer@123')">
+            <i class="fas fa-user" style="color:var(--primary);"></i> Customer Demo
+          </button>
+          <button type="button" class="demo-account-btn" onclick="fillCredentials('admin', 'Admin@123')">
+            <i class="fas fa-user-shield" style="color:var(--secondary);"></i> Admin Demo
+          </button>
+        </div>
+        <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.5rem;">
+          Autofills credentials ready in the Django database (satisfies password policy).
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top: 1.75rem; font-size:0.95rem; color:var(--text-muted);">
+        Don't have an account? <a href="register.html" style="font-weight:700;">Create Account</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom" style="border-top:none; padding-top:0;">
+      <div>&copy; 2026 AuraStore. All rights reserved.</div>
+      <div>Client-Server Architecture with Django REST API.</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Elements
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const usernameFeedback = document.getElementById('username_feedback');
+    const passwordFeedback = document.getElementById('password_feedback');
+    const submitBtn = document.getElementById('login-submit-btn');
+
+    // Password Visibility Toggle
+    const toggleBtn = document.getElementById('toggle-login-password');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        toggleBtn.innerHTML = isPassword ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+      });
+    }
+
+    function fillCredentials(u, p) {
+      usernameInput.value = u;
+      passwordInput.value = p;
+      usernameInput.classList.remove('is-invalid');
+      passwordInput.classList.remove('is-invalid');
+      usernameFeedback.innerHTML = '';
+      passwordFeedback.innerHTML = '';
+      showToast(`Credentials filled for: ${u}`, 'info');
+    }
+
+    function setFieldState(input, feedbackEl, isValid, message = '') {
+      if (isValid) {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        feedbackEl.className = 'field-feedback success';
+        feedbackEl.innerHTML = message ? `<i class="fas fa-check-circle"></i> <span>${message}</span>` : '';
+      } else {
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        feedbackEl.className = 'field-feedback error';
+        feedbackEl.innerHTML = message ? `<i class="fas fa-exclamation-circle"></i> <span>${message}</span>` : '';
+      }
+    }
+
+    function clearFieldState(input, feedbackEl) {
+      input.classList.remove('is-valid', 'is-invalid');
+      feedbackEl.className = 'field-feedback';
+      feedbackEl.innerHTML = '';
+    }
+
+    usernameInput.addEventListener('input', () => {
+      if (usernameInput.value.trim()) {
+        clearFieldState(usernameInput, usernameFeedback);
+      }
+    });
+
+    passwordInput.addEventListener('input', () => {
+      if (passwordInput.value) {
+        clearFieldState(passwordInput, passwordFeedback);
+      }
+    });
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const u = usernameInput.value.trim();
+      const p = passwordInput.value;
+
+      let hasError = false;
+
+      if (!u) {
+        setFieldState(usernameInput, usernameFeedback, false, 'Please enter your username or email.');
+        hasError = true;
+      } else {
+        clearFieldState(usernameInput, usernameFeedback);
+      }
+
+      if (!p) {
+        setFieldState(passwordInput, passwordFeedback, false, 'Please enter your password.');
+        hasError = true;
+      } else {
+        clearFieldState(passwordInput, passwordFeedback);
+      }
+
+      if (hasError) return;
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Signing In...`;
+
+        const data = await Auth.login(u, p);
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirect = urlParams.get('redirect');
+
+        setTimeout(() => {
+          if (data.user.is_staff || data.user.is_superuser) {
+            window.location.href = redirect || 'admin.html';
+          } else {
+            window.location.href = redirect || 'products.html';
+          }
+        }, 500);
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i> Sign In`;
+        
+        // Show invalid credentials state
+        setFieldState(usernameInput, usernameFeedback, false, 'Invalid username/email or password.');
+        setFieldState(passwordInput, passwordFeedback, false, 'Invalid username/email or password.');
+      }
+    });
+  </script>
+</body>
+</html>
